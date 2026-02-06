@@ -93,7 +93,7 @@ export default function AddBookModal() {
                                 <div>
                                     <p className="font-bold text-md leading-tight">{searchMutation.data?.book.title}</p>
                                     <p className="text-sm opacity-70 mt-1">{searchMutation.data?.book.author}</p>
-                                    <div className="badge badge-outline badge-sm mt-2 opacity-50">
+                                    <div className="badge badge-soft badge-info badge-sm mt-2 opacity-50">
                                         {searchMutation.data?.book.page_count || "?"} páginas
                                     </div>
                                 </div>

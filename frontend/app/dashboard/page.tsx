@@ -1,15 +1,44 @@
 "use client";
-import { PlusIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { Book, useBooks } from "../hooks/use-books";
 import AddBookModal from "../components/add-book-modal";
 import { parseStatus, parseStatusColor } from "../utils/status";
 import EditBookModal from "../components/edit-book-modal";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 
 export default function DashboardPage() {
     const [selectedBook, setSelectedBook] = useState<Book>({} as Book)
     const { data: books, isLoading, isError } = useBooks();
+
+// 1. Estado para el valor visual del input (inmediato)
+    const [searchTerm, setSearchTerm] = useState("");
+    // 2. Estado para el valor que realmente filtra (debounced)
+    const [debouncedQuery, setDebouncedQuery] = useState("");
+    const [statusFilter, setStatusFilter] = useState("ALL");
+
+    // 3. Efecto de Debounce
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedQuery(searchTerm);
+        }, 250); // 500ms es el estándar, cámbialo a 2000 si quieres 2 segundos
+
+        return () => clearTimeout(handler); // Limpia el timeout si el usuario sigue escribiendo
+    }, [searchTerm]);
+
+    // Lógica de filtrado
+    const filteredBooks = useMemo(() => {
+        if (!books) return [];
+        return books.filter((book) => {
+            const matchesSearch = 
+                book.title.toLowerCase().includes(debouncedQuery.toLowerCase()) ||
+                book.author.toLowerCase().includes(debouncedQuery.toLowerCase());
+            
+            const matchesStatus = statusFilter === "ALL" || book.status === statusFilter;
+            
+            return matchesSearch && matchesStatus;
+        });
+    }, [books, debouncedQuery, statusFilter]);
 
     if (isLoading) return (
         <div className="flex justify-center items-center min-h-screen">
@@ -19,10 +48,39 @@ export default function DashboardPage() {
 
     return (
         <div className="p-6 pb-24">
-            <h1 className="text-3xl font-bold mb-8">Mi Biblioteca</h1>
+            <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
+                <h1 className="text-4xl font-black text-base-content">Mi Biblioteca</h1>
+                
+                <div className="flex flex-wrap gap-2">
+                    {/* Barra de Búsqueda */}
+                    <div className="relative group">
+                        <MagnifyingGlassIcon className="h-5 w-5 absolute left-3 top-1/2 -translate-y-1/2 opacity-30 group-focus-within:opacity-100 transition-opacity" />
+                        <input 
+                            type="text" 
+                            placeholder="Buscar título o autor..." 
+                            className="input input-bordered pl-10 w-full md:w-64 rounded-2xl bg-base-100 shadow-sm"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {books?.map((book) => (
+                    {/* Filtro por Estado */}
+                    <select 
+                        className="select select-bordered rounded-2xl bg-base-100 shadow-sm font-bold"
+                        value={statusFilter}
+                        onChange={(e) => setStatusFilter(e.target.value)}
+                    >
+                        <option value="ALL">Todos los estados</option>
+                        <option value="READING">📖 Leyendo</option>
+                        <option value="PENDING">🕒 Pendiente</option>
+                        <option value="COMPLETED">✅ Terminado</option>
+                        <option value="DROPPED">❌ Abandonado</option>
+                    </select>
+                </div>
+            </header>
+
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-x-4 gap-y-12 w-full">
+                {filteredBooks?.map((book) => (
                     <BookCard key={book.id} book={book} setSelectedBook={setSelectedBook} />
                 ))}
 
