@@ -17,7 +17,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), session: Session = D
     if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Usuario o contraseña incorrectos",
+            detail="User or password incorrect",
             headers={"WWW-Authenticate": "Bearer"},
         )
     
@@ -34,7 +34,7 @@ def create_user(user_data: UserCreate, session: Session = Depends(get_session)):
     if existing_user:
         raise HTTPException(
             status_code=400, 
-            detail="El nombre de usuario o el email ya están registrados."
+            detail="Username or email already created"
         )
 
     hashed_pwd = get_password_hash(user_data.password)
@@ -52,5 +52,5 @@ def create_user(user_data: UserCreate, session: Session = Depends(get_session)):
     return {
         "id": db_user.id,
         "username": db_user.username,
-        "message": "Usuario creado con éxito"
+        "message": "User created"
     }
