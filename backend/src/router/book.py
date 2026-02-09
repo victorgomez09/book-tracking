@@ -139,7 +139,7 @@ def add_book_title(
     new_user_book = UserBook(
         user_id=current_user.id,
         book_id=book_db.id,
-        status="WANT_TO_READ",  # O "PENDING" según tu preferencia
+        status="PENDING",
         current_page=0,
         rating=0,
         notes="",
