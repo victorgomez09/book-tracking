@@ -1,5 +1,5 @@
 services:
-  db:
+  database:
     image: postgres:15 # Versión estable y compatible
     container_name: book-tracking-db
     restart: always
@@ -12,5 +12,33 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - 11434:11434
+    volumes:
+      - ollama:/root/.ollama
+    container_name: ollama
+    tty: true
+    restart: unless-stopped
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    volumes:
+      - open-webui:/app/backend/data
+    depends_on:
+      - ollama
+    ports:
+      - 3001:8080
+    environment:
+      - 'OLLAMA_BASE_URL=http://ollama:11434'
+      - 'WEBUI_SECRET_KEY='
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    restart: unless-stopped
+
 volumes:
   postgres_data:
+  ollama:
+  open-webui:

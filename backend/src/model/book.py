@@ -16,6 +16,7 @@ class Book(SQLModel, table=True):
     page_count: Optional[int] = None
     category: Optional[str] = None
     image_url: Optional[str] = None
+    external_link: Optional[str] = None
 
     user_books: List["UserBook"] = Relationship(back_populates="book")
 

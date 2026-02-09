@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
 from config.database import init_db
-from router import book, user
+from router import book, user, recommendation
 
 
 @asynccontextmanager
@@ -28,3 +28,4 @@ app.add_middleware(
 
 app.include_router(book.router)
 app.include_router(user.router)
+app.include_router(recommendation.router)
