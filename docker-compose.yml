@@ -38,7 +38,18 @@ services:
       - host.docker.internal:host-gateway
     restart: unless-stopped
 
+  cache:
+    image: redis:7.4-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --save 20 1 --loglevel warning --requirepass yourpassword
+    volumes:
+      - cache:/data
+
 volumes:
   postgres_data:
   ollama:
   open-webui:
+  cache:
+    driver: local
