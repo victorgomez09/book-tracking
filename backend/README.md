@@ -1,7 +1,7 @@
 # CELERY
 ```bash
-celery -A worker worker --loglevel=info
+celery -A src.worker worker --loglevel=info
 ```
 ```bash
-celery -A worker beat --loglevel=info
+celery -A src.worker beat --loglevel=info
 ```
