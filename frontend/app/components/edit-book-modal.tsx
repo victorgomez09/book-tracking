@@ -41,26 +41,26 @@ export default function EditBookModal({ book }: { book: Book }) {
             <div className="modal-box bg-base-100 rounded-[2.5rem] p-8">
                 <h3 className="font-black text-2xl mb-6 text-center">Gestionar Lectura</h3>
 
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
                     {/* Estado */}
                     <fieldset className="fieldset">
                         <legend className="fieldset-legend">Estado</legend>
                         <select defaultValue="Pick a text editor" className="select select-primary w-full" {...register("status")}>
-                            <option value="PENDING">🕒 Pendiente</option>
-                            <option value="READING">📖 Leyendo</option>
-                            <option value="COMPLETED">✅ Completado</option>
-                            <option value="DROPPED">❌ Abandonado</option>
+                            <option value="PENDING">Pendiente</option>
+                            <option value="READING">Leyendo</option>
+                            <option value="COMPLETED">Completado</option>
+                            <option value="DROPPED">Abandonado</option>
                         </select>
                     </fieldset>
 
                     {/* Progreso de Páginas */}
-                    <fieldset className="fieldset">
+                    {/* <fieldset className="fieldset">
                         <legend className="fieldset-legend">Página actual</legend>
                         <div className="flex items-center gap-2 w-full">
                             <input type="number" className="input input-bordered input-primary w-full" {...register("current_page")} />
                             <p className="label">de {book.page_count}</p>
                         </div>
-                    </fieldset>
+                    </fieldset> */}
 
                     {/* Rating con Estrellas de DaisyUI */}
                     <fieldset className="fieldset">
@@ -89,7 +89,7 @@ export default function EditBookModal({ book }: { book: Book }) {
                     </fieldset>
 
                     <div className="modal-action flex-col gap-2">
-                        <button className={`btn btn-primary btn-block rounded-2xl border-none bg-emerald-400 hover:bg-emerald-500 text-white font-bold h-12 ${updateBookMutation.isPending ? 'loading' : ''}`}>
+                        <button className={`btn btn-primary btn-block ${updateBookMutation.isPending ? 'loading' : ''}`}>
                             Guardar cambios
                         </button>
                         <button type="button" onClick={() => (document.getElementById("edit_modal") as any).close()} className="btn btn-ghost btn-block">

@@ -1,7 +1,9 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "../api/axios";
 
 export const useAuth = () => {
+    const queryClient = useQueryClient();
+    
     // Mutación para Registro
     const registerMutation = useMutation({
         mutationFn: async (data: any) => {
@@ -23,5 +25,20 @@ export const useAuth = () => {
         },
     });
 
-    return { registerMutation, loginMutation };
+    const logout = async () => {
+        queryClient.setQueryData(["user-me"], null);
+        window.location.href = "/login";
+    };
+
+    const { data: user, isLoading, isError, error } = useQuery({
+        queryKey: ["user-me"],
+        queryFn: async () => {
+            const response = await api.get("/users/me");
+            return response.data;
+        },
+        retry: false, // Si da 401, no reintentar
+        staleTime: 1000 * 60 * 5, // Cachear 5 minutos
+    });
+
+    return { registerMutation, loginMutation, isAuthenticated: !!user, user, isError, isLoading, error, logout };
 };

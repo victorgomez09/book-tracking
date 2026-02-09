@@ -30,6 +30,7 @@ def find_all_books(session: Session = Depends(get_session), current_user: User =
                 "publisher": book.publisher,
                 "published_date": book.published_date,
                 "image_url": book.image_url,
+                "category": book.category,
                 "progress": ub.progress,
                 "rating": ub.rating,
                 "notes": ub.notes,

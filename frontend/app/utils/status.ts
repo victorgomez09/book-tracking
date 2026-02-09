@@ -7,7 +7,7 @@ export const parseStatus = (status: string): string => {
         case "COMPLETED":
             return "TERMINADO";
         default:
-            return "";
+            return "ABANDONADO";
     }
 }
 
@@ -20,6 +20,6 @@ export const parseStatusColor = (status: string): string => {
         case "COMPLETED":
             return "success";
         default:
-            return "";
+            return "error";
     }
 }

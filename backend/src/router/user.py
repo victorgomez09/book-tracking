@@ -4,9 +4,19 @@ from config.database import get_session
 from fastapi import APIRouter, Depends, HTTPException, status
 from model.user import User
 from sqlmodel import Session, select
-from util.auth import create_access_token, get_password_hash, verify_password
+from util.auth import create_access_token, get_password_hash, verify_password, get_current_user
 
 router = APIRouter(prefix="/users", tags=["users"])
+
+@router.get("/me")
+async def get_current_user(
+    current_user: User = Depends(get_current_user), 
+):
+    return {
+        "id": current_user.id,
+        "email": current_user.email,
+        "username": current_user.username,
+    }
 
 @router.post("/login")
 def login(form_data: OAuth2PasswordRequestForm = Depends(), session: Session = Depends(get_session)):

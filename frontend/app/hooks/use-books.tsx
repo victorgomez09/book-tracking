@@ -8,6 +8,7 @@ export interface Book {
     description: string;
     image_url: string;
     page_count: number;
+    category: string;
     current_page: number;
     progress: number;
     rating: number;
