@@ -1,12 +1,10 @@
 "use client";
 
 import { SparklesIcon } from "@heroicons/react/24/outline";
-import { useQuery } from "@tanstack/react-query";
-import { api } from "../api/axios";
-import { useRecommendations } from "../hooks/use-recommendations";
+import { useRecommendations } from "@/app/hooks/use-recommendations";
 
 export default function RecommendationsPage() {
-  const { generate: { data: recommendations, isLoading, refetch} } = useRecommendations()
+  const { lastRecommendation: { data: recommendations, isLoading, refetch} } = useRecommendations()
 
   return (
     <div className="p-6 max-w-4xl mx-auto">

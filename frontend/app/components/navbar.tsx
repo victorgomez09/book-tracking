@@ -27,12 +27,12 @@ export default function Navbar({ user, logout }: NavbarProps) {
           <div className="flex gap-1">
             <ul className="menu menu-horizontal px-1">
               <li>
-                <Link href="/dashboard" className={`gap-2 ${pathname === "/dashboard" ? 'text-secondary font-bold' : ''}`}>
+                <Link href="/library" className={`gap-2 ${pathname === "/library" ? 'text-secondary font-bold' : ''}`}>
                   <BookOpenIcon className="h-5 w-5" />
                   <span className="hidden md:inline">Biblioteca</span>
                 </Link></li>
               <li>
-                <Link href="/recommendations" className={`gap-2 ${pathname === "/recommended" ? 'text-secondary font-bold' : ''}`}>
+                <Link href="/recommendations" className={`gap-2 ${pathname === "/recommendations" ? 'text-secondary font-bold' : ''}`}>
                   <SparklesIcon className="h-5 w-5" />
                   <span className="hidden md:inline">Recomendaciones</span>
                 </Link>
@@ -51,10 +51,9 @@ export default function Navbar({ user, logout }: NavbarProps) {
             <ul
               tabIndex={-1}
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-              <li>
-                <a className="justify-between">
+              <li className="menu-disabled">
+                <a>
                   Perfil
-                  <span className="badge">New</span>
                 </a>
               </li>
               <li onClick={() => logout()} className="hover:text-error"><a>Cerrar sesión</a></li>

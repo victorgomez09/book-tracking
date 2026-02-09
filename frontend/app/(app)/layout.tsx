@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Navbar from "../components/navbar";
-import { useAuth } from "../hooks/use-auth";
+import { useAuth } from "@/app/hooks/use-auth";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const router = useRouter();

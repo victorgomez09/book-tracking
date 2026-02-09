@@ -12,14 +12,15 @@ export const useRecommendations = () => {
         },
     });
 
-    const generate = useQuery({
-        queryKey: ["recommendations"],
-        queryFn: async () => {
-            const res = await api.get("/recommendations/generate");
-            return JSON.parse(res.data); // Asumiendo que el backend envía el string de la IA
+    const generateMutation = useMutation({
+        mutationFn: async () => {
+            const res = await api.post("/recommendations/generate");
+            return JSON.parse(res.data);
         },
-        enabled: false,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["books"] });
+        },
     });
 
-    return { lastRecommendation, generate };
+    return { lastRecommendation, generateMutation };
 };

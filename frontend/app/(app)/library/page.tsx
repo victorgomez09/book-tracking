@@ -1,11 +1,11 @@
 "use client";
-import { ArrowPathIcon, CheckBadgeIcon, DocumentTextIcon, MagnifyingGlassIcon, PlusIcon, SparklesIcon, StarIcon, TagIcon, UserIcon } from "@heroicons/react/24/outline";
+import { ArrowPathIcon, CheckBadgeIcon, DocumentTextIcon, MagnifyingGlassIcon, PlusIcon, SparklesIcon, StarIcon, TagIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
-import AddBookModal from "../components/add-book-modal";
-import EditBookModal from "../components/edit-book-modal";
-import { Book, useBooks } from "../hooks/use-books";
-import { parseStatus, parseStatusColor } from "../utils/status";
+import AddBookModal from "@/app/components/add-book-modal";
+import EditBookModal from "@/app/components/edit-book-modal";
+import { Book, useBooks } from "@/app/hooks/use-books";
+import { parseStatus, parseStatusColor } from "@/app/utils/status";
 
 export default function DashboardPage() {
     const [selectedBook, setSelectedBook] = useState<Book>({} as Book)
@@ -104,7 +104,7 @@ export default function DashboardPage() {
     );
 
     return (
-        <div className="flx flex-col p-6 pb-24 w-full h-full">
+        <div className="flx flex-col p-6 w-full h-full">
             <header className="flex flex-col justify-between gap-4 mb-10">
                 <h1 className="text-4xl font-black text-base-content">Mi Biblioteca</h1>
 

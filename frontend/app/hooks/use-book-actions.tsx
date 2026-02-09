@@ -7,8 +7,8 @@ export const useBookActions = () => {
 
     // Buscar en la API (que a su vez busca en Google Books)
     const searchMutation = useMutation({
-        mutationFn: async (title: string) => {
-            const response = await api.get<{ book: Book }>(`/books/by-title?title=${title}`);
+        mutationFn: async ({ title, author }: { title: string; author?: string }) => {
+            const response = await api.get<{ books: Book[] }>(`/books/by-title?title=${title}&author=${author || ""}`);
             return response.data;
         },
     });
