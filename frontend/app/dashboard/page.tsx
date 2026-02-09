@@ -68,8 +68,7 @@ export default function DashboardPage() {
 
         return {
             totalRead: completedBooks.length,
-            // pagesRead: totalPages,
-            pagesRead: 30000000000620,
+            pagesRead: totalPages,
             favoriteGenre: topGenre,
             avgRating
         };
