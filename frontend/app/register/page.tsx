@@ -1,7 +1,7 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../hooks/use-auth";
+import { useAuth } from "../../hooks/use-auth";
 
 export default function RegisterPage() {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -24,7 +24,7 @@ export default function RegisterPage() {
                         <legend className="fieldset-legend">Nombre de Usuario</legend>
                         <input {...register("username", { required: "Campo requerido" })}
                             type="text"
-                            className={`input input-bordered ${errors.username ? 'input-error' : ''}`} />
+                            className={`input input-bordered w-full ${errors.username ? 'input-error' : ''}`} />
                         {errors.username && <span className="text-error text-xs mt-1">{errors.username.message as string}</span>}
                     </fieldset>
 
@@ -34,7 +34,7 @@ export default function RegisterPage() {
                             required: "Campo requerido",
                             pattern: { value: /^\S+@\S+$/i, message: "Email inválido" }
                         })}
-                            className={`input input-bordered ${errors.email ? 'input-error' : ''}`} />
+                            className={`input input-bordered w-full ${errors.email ? 'input-error' : ''}`} />
                         {errors.email && <span className="text-error text-xs mt-1">{errors.email.message as string}</span>}
                     </fieldset>
 
@@ -45,7 +45,7 @@ export default function RegisterPage() {
                             minLength: { value: 6, message: "Mínimo 6 caracteres" }
                         })}
                             type="password"
-                            className={`input input-bordered ${errors.password ? 'input-error' : ''}`} />
+                            className={`input input-bordered w-full ${errors.password ? 'input-error' : ''}`} />
                         {errors.password && <span className="text-error text-xs mt-1">{errors.password.message as string}</span>}
                     </fieldset>
 

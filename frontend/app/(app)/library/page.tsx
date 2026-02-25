@@ -2,10 +2,10 @@
 import { ArrowPathIcon, CheckBadgeIcon, DocumentTextIcon, MagnifyingGlassIcon, PlusIcon, SparklesIcon, StarIcon, TagIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
-import AddBookModal from "@/app/components/add-book-modal";
-import EditBookModal from "@/app/components/edit-book-modal";
-import { Book, useBooks } from "@/app/hooks/use-books";
-import { parseStatus, parseStatusColor } from "@/app/utils/status";
+import AddBookModal from "@/components/add-book-modal";
+import EditBookModal from "@/components/edit-book-modal";
+import { Book, useBooks } from "@/hooks/use-books";
+import { parseStatus, parseStatusColor } from "@/utils/status";
 
 export default function DashboardPage() {
     const [selectedBook, setSelectedBook] = useState<Book>({} as Book)
@@ -19,7 +19,7 @@ export default function DashboardPage() {
     useEffect(() => {
         const handler = setTimeout(() => {
             setDebouncedQuery(searchTerm);
-        }, 250); // 500ms es el estándar, cámbialo a 2000 si quieres 2 segundos
+        }, 250);
 
         return () => clearTimeout(handler);
     }, [searchTerm]);
@@ -292,7 +292,7 @@ function BookCard({ book, setSelectedBook }: { book: Book, setSelectedBook: Disp
                     <div className="flex flex-col items-start gap-2">
                         <div className="flex items-center gap-1">
                             <ArrowPathIcon className="size-4" />
-                            <span className={`badge badge-sm badge-soft badge-${parseStatusColor(book.status)}`}>
+                            <span className={`badge badge-sm badge-soft ${parseStatusColor(book.status)}`}>
                                 {parseStatus(book.status)}
                             </span>
                         </div>

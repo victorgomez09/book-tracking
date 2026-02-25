@@ -4,7 +4,6 @@ import { api } from "../api/axios";
 export const useAuth = () => {
     const queryClient = useQueryClient();
     
-    // Mutación para Registro
     const registerMutation = useMutation({
         mutationFn: async (data: any) => {
             const response = await api.post("/users/", data);
@@ -12,7 +11,6 @@ export const useAuth = () => {
         },
     });
 
-    // Mutación para Login
     const loginMutation = useMutation({
         mutationFn: async (formData: FormData) => {
             // El login de FastAPI usa OAuth2 (Form Data)
@@ -21,7 +19,7 @@ export const useAuth = () => {
         },
         onSuccess: (data) => {
             localStorage.setItem("token", data.access_token);
-            window.location.href = "/dashboard"; // Redirección simple
+            window.location.href = "/library"; // Redirección simple
         },
     });
 

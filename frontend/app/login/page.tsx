@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { useAuth } from "../hooks/use-auth";
+import { useAuth } from "../../hooks/use-auth";
 
 interface OAuth2Type {
     username: string,
@@ -46,7 +46,8 @@ export default function LoginPage() {
                     )}
 
                     <div className="form-control mt-6">
-                        <button className={`btn btn-block btn-primary ${loginMutation.isPending ? 'loading' : ''}`}>
+                        <button className="btn btn-block btn-primary">
+                            {loginMutation.isPending && <span className="loading loading-spinner"></span>}
                             Entrar
                         </button>
                     </div>

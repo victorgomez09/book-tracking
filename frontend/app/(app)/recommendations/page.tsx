@@ -1,7 +1,7 @@
 "use client";
 
 import { SparklesIcon } from "@heroicons/react/24/outline";
-import { useRecommendations } from "@/app/hooks/use-recommendations";
+import { useRecommendations } from "@/hooks/use-recommendations";
 
 export default function RecommendationsPage() {
   const { lastRecommendation: { data: recommendations, isLoading, refetch} } = useRecommendations()

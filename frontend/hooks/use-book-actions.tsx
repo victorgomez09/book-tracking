@@ -5,7 +5,6 @@ import { Book } from "./use-books";
 export const useBookActions = () => {
     const queryClient = useQueryClient();
 
-    // Buscar en la API (que a su vez busca en Google Books)
     const searchMutation = useMutation({
         mutationFn: async ({ title, author }: { title: string; author?: string }) => {
             const response = await api.get<{ books: Book[] }>(`/books/by-title?title=${title}&author=${author || ""}`);
@@ -13,7 +12,6 @@ export const useBookActions = () => {
         },
     });
 
-    // Registrar la relación User-Book
     const addBookMutation = useMutation({
         mutationFn: async (bookData: Book) => {
             const response = await api.post("/books/by-title", null, {
@@ -22,7 +20,6 @@ export const useBookActions = () => {
             return response.data;
         },
         onSuccess: () => {
-            // Refrescar la lista de la biblioteca automáticamente
             queryClient.invalidateQueries({ queryKey: ["books"] });
         },
     });
@@ -37,5 +34,14 @@ export const useBookActions = () => {
         },
     });
 
-    return { searchMutation, addBookMutation, updateBookMutation };
+    const deleteBookMutation = useMutation({
+        mutationFn: async (bookId: number) => {
+            await api.delete(`/books/${bookId}`);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["books"] });
+        },
+    });
+
+    return { searchMutation, addBookMutation, updateBookMutation, deleteBookMutation };
 };

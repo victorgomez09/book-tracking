@@ -14,7 +14,7 @@ export default function EditBookModal({ book }: { book: Book }) {
             tags: book.tags
         }
     });
-    const { updateBookMutation } = useBookActions();
+    const { updateBookMutation, deleteBookMutation } = useBookActions();
     const currentRating = watch("rating");
 
     useEffect(() => {
@@ -39,7 +39,7 @@ export default function EditBookModal({ book }: { book: Book }) {
     return (
         <dialog id="edit_modal" className="modal modal-bottom sm:modal-middle">
             <div className="modal-box bg-base-100 rounded-[2.5rem] p-8">
-                <h3 className="font-black text-2xl mb-6 text-center">Gestionar Lectura</h3>
+                <h3 className="font-black text-2xl mb-6 text-center">Gestionar: {book.title}</h3>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
                     {/* Estado */}
@@ -89,7 +89,15 @@ export default function EditBookModal({ book }: { book: Book }) {
                     </fieldset>
 
                     <div className="modal-action flex-col gap-2">
-                        <button className={`btn btn-primary btn-block ${updateBookMutation.isPending ? 'loading' : ''}`}>
+                        <button type="button" className={`btn btn-ghost btn-error btn-block ${updateBookMutation.isPending ? 'loading' : ''}`} onClick={async () => {
+                            await deleteBookMutation.mutateAsync(book.id);
+                            (document.getElementById("edit_modal") as any).close();
+                        }}>
+                            {deleteBookMutation.isPending && <span className="loading loading-spinner"></span>}
+                            Eliminar
+                        </button>
+                        <button className="btn btn-primary btn-block">
+                            {updateBookMutation.isPending && <span className="loading loading-spinner"></span>}
                             Guardar cambios
                         </button>
                         <button type="button" onClick={() => (document.getElementById("edit_modal") as any).close()} className="btn btn-ghost btn-block">

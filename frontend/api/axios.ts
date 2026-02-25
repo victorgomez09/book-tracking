@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+console.log('url', process.env.NEXT_PUBLIC_API_URL)
+
 export const api = axios.create({
-    baseURL: 'https://refactored-eureka-g5wg45vqp9w3v69q-8000.app.github.dev', // Tu API de FastAPI
+    baseURL: process.env.NEXT_PUBLIC_API_URL
 });
 
 // Interceptor para meter el Token JWT automáticamente

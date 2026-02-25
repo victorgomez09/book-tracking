@@ -14,12 +14,12 @@ export const parseStatus = (status: string): string => {
 export const parseStatusColor = (status: string): string => {
     switch (status) {
         case "PENDING":
-            return "warning"
+            return "badge-warning"
         case "READING":
-            return "info";
+            return "badge-info";
         case "COMPLETED":
-            return "success";
+            return "badge-success";
         default:
-            return "error";
+            return "badge-error";
     }
 }

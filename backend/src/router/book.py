@@ -55,17 +55,16 @@ def search_book_title(
     session: Session = Depends(get_session),
     _=Depends(get_current_user),
 ):
-    clean_author = author.strip() if author else None
     query = select(Book).where(
         and_(
             col(Book.title).ilike(f"%{title.strip()}%"),
             func.abs(func.length(Book.title) - len(title.strip()))
-            < 5,  # Margen de 5 caracteres
+            < 5,
         )
     )
 
-    if clean_author:
-        query = query.where(col(Book.author).ilike(f"%{clean_author}%"))
+    if author:
+        query = query.where(col(Book.author).ilike(f"%{author}%"))
     books_db = session.exec(query).all()
 
     if books_db:
@@ -204,10 +203,12 @@ def delete_user_book(
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_user),
 ):
+    print("book id", book_id)
     query = select(UserBook).where(
         UserBook.book_id == book_id, UserBook.user_id == current_user.id
     )
     user_book = session.exec(query).first()
+    print("user_book", user_book)
 
     if not user_book:
         raise HTTPException(
